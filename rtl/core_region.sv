@@ -46,7 +46,7 @@ module core_region
   parameter WAPUTYPE            = 3,
   parameter APU_NDSFLAGS_CPU    = 3,
   parameter APU_NUSFLAGS_CPU    = 5,
-  
+
   parameter FPU                 =  0,
   parameter FP_DIVSQRT          =  0,
   parameter SHARED_FP           =  0,
@@ -65,12 +65,12 @@ module core_region
   input logic [3:0]                      base_addr_i, // FOR CLUSTER VIRTUALIZATION
 
   input logic [5:0]                      cluster_id_i,
-  
+
   input logic                            irq_req_i,
   output logic                           irq_ack_o,
   input logic [4:0]                      irq_id_i,
   output logic [4:0]                     irq_ack_id_o,
-  
+
   input logic                            clock_en_i,
   input logic                            fetch_en_i,
   input logic                            fregfile_disable_i,
@@ -89,12 +89,12 @@ module core_region
   input logic                            instr_r_valid_i,
 
   input logic                            debug_req_i,
-              
+
   //XBAR_TCDM_BUS.Slave     debug_bus,
   //output logic            debug_core_halted_o,
   //input logic             debug_core_halt_i,
   //input logic             debug_core_resume_i,
-              
+
   // Interface for DEMUX to TCDM INTERCONNECT ,PERIPHERAL INTERCONNECT and DMA CONTROLLER
   hci_core_intf.master tcdm_data_master,
   XBAR_TCDM_BUS.Master dma_ctrl_master,
@@ -135,7 +135,7 @@ module core_region
   input logic [31:0]                     apu_master_result_i,
   input logic [APU_NUSFLAGS_CPU-1:0]     apu_master_flags_i
 `endif
- 
+
 
 );
 
@@ -214,7 +214,7 @@ module core_region
   generate
     if ( CORE_TYPE_CL == 0 ) begin: CL_CORE
       assign boot_addr = boot_addr_i;
-      riscv_core #(
+      riscv_nn_core #(
         .INSTR_RDATA_WIDTH   ( INSTR_RDATA_WIDTH ),
         .N_EXT_PERF_COUNTERS ( N_EXT_PERF_COUNTERS_ACTUAL ),
         .PULP_SECURE         ( 0                 ),
@@ -225,7 +225,8 @@ module core_region
         .SHARED_INT_DIV      ( 0                 ),
         .SHARED_FP_DIVSQRT   ( SHARED_FP_DIVSQRT ),
         .WAPUTYPE            ( WAPUTYPE          ),
-        .DM_HaltAddress      ( DEBUG_START_ADDR + 16'h0800 )
+        .DM_HaltAddress      ( DEBUG_START_ADDR + 16'h0800 ),
+        .TNN_EXTENSION       ( 1                 )
 
       ) RISCV_CORE (
         .clk_i                 ( clk_i             ),
@@ -282,10 +283,10 @@ module core_region
 
         .ext_perf_counters_i   ( perf_counters         ),
         .fregfile_disable_i    ( 1'b1                  )   //disable FP regfile
-      ); 
+      );
     end else begin: CL_CORE
       assign boot_addr = boot_addr_i & 32'hFFFFFF00; // RI5CY expects 0x80 offset, Ibex expects 0x00 offset (adds reset offset 0x80 internally)
-      
+
       if (INSTR_RDATA_WIDTH == 128) begin
         instr_width_converter ibex_width_converter (
           .clk_i            ( clk_i              ),
@@ -317,7 +318,7 @@ module core_region
         assign core_instr_r_rdata = instr_r_rdata_i;
         assign core_instr_r_valid = instr_r_valid_i;
       end
-      
+
       obi_pulp_adapter i_obi_pulp_adapter_mem (
         .clk_i       (clk_i             ),
         .rst_ni      (rst_ni            ),
@@ -428,7 +429,7 @@ module core_region
   //********************************************************
   //****** DEMUX TO TCDM AND PERIPHERAL INTERCONNECT *******
   //********************************************************
-   
+
   // demuxes to TCDM & memory hierarchy
   core_demux #(
     .ADDR_WIDTH         ( 32                 ),
