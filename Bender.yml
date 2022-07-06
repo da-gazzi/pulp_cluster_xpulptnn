@@ -25,7 +25,7 @@ dependencies:
   common_cells:           { git: "https://github.com/pulp-platform/common_cells.git", version: 1.21.0 }
   tech_cells_generic:     { git: "https://github.com/pulp-platform/tech_cells_generic.git", version: 0.2.3 }
   # cv32e40p:               { git: "https://github.com/pulp-platform/cv32e40p.git", rev: "pulpissimo-v3.4.0-rev4"}
-  riscv_nn:               { git: "git@iis-git.ee.ethz.ch:georgr/riscv-tnn.git", rev: "6448f7bfb504b850c5953a60902ccd3d93e22284"}
+  riscv_nn:               { git: "git@iis-git.ee.ethz.ch:georgr/riscv-tnn.git", rev: "765c072caec47930a210b8440892a36bc0006d68"}
   ibex:                   { git: "https://github.com/lowRISC/ibex.git", rev: "pulpissimo-v6.1.1" }
   scm:                    { git: "https://github.com/pulp-platform/scm.git", version: 1.0.1}
   hwpe-datamover-example: { git: "https://github.com/pulp-platform/hwpe-datamover-example.git", version: 1.0.1 }
