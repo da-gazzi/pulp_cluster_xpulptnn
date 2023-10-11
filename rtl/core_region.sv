@@ -52,6 +52,9 @@ module core_region
   parameter SHARED_FP           =  0,
   parameter SHARED_FP_DIVSQRT   =  0,
 
+  parameter TNN_EXTENSION       = 0,
+  parameter TNN_UNSIGNED        = 0,
+
   parameter DEBUG_START_ADDR    = `DEBUG_START_ADDR,
 
   parameter L2_SLM_FILE         = "./slm_files/l2_stim.slm",
@@ -226,7 +229,9 @@ module core_region
         .SHARED_FP_DIVSQRT   ( SHARED_FP_DIVSQRT ),
         .WAPUTYPE            ( WAPUTYPE          ),
         .DM_HaltAddress      ( DEBUG_START_ADDR + 16'h0800 ),
-        .TNN_EXTENSION       ( 1                 )
+        .TNN_EXTENSION       ( TNN_EXTENSION      ),
+        .TNN_UNSIGNED        ( TNN_UNSIGNED       )
+                      
 
       ) RISCV_CORE (
         .clk_i                 ( clk_i             ),

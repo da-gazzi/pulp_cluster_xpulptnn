@@ -142,7 +142,10 @@ module pulp_cluster
   parameter APU_WOP_CPU             = 6,
   parameter WAPUTYPE                = 3,
   parameter APU_NDSFLAGS_CPU        = 15,
-  parameter APU_NUSFLAGS_CPU        = 5
+  parameter APU_NUSFLAGS_CPU        = 5,
+
+  parameter TNN_EXTENSION           = 1,
+  parameter TNN_UNSIGNED            = 0
 )
 (
   input logic                                    clk_i,
@@ -864,6 +867,9 @@ module pulp_cluster
         .WAPUTYPE            ( WAPUTYPE           ), //= 3,
         .APU_NDSFLAGS_CPU    ( APU_NDSFLAGS_CPU   ), //= 3,
         .APU_NUSFLAGS_CPU    ( APU_NUSFLAGS_CPU   ), //= 5,
+        
+        .TNN_EXTENSION       ( TNN_EXTENSION      ),
+        .TNN_UNSIGNED        ( TNN_UNSIGNED       ),
 
         .FPU                 ( CLUST_FPU               ),
         .FP_DIVSQRT          ( CLUST_FP_DIVSQRT        ),
